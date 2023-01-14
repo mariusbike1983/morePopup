@@ -8,7 +8,6 @@ defineExpose({
 });
 
 const cards = 10;
-const vc = ref([]);
 
 const container = ref(null);
 
@@ -22,11 +21,7 @@ function onResize() {
   console.log('resizing');
 }
 
-onBeforeMount(() => {
-  for (let i = 0; i < cards; i++) {
-    vc.value.push(true);
-  }
-});
+onBeforeMount(() => {});
 
 onMounted(() => {
   let containerWidth = container.value.offsetWidth;
@@ -37,13 +32,8 @@ onMounted(() => {
     width += 70;
     if (width >= containerWidth) {
       buttonV = true; // display the more button
-      console.log('must hide the button ' + i);
       let card = document.getElementById('card' + i);
       morePopup.value.appendChild(card);
-      // vc.value[i] = false; // hide
-      // if (moreIndex < 0) {
-      //   moreIndex = i;
-      // }
     }
   }
   moreButtonVisible.value = buttonV;
@@ -56,12 +46,7 @@ function onMoreClick() {
 
 <template>
   <div class="container" ref="container">
-    <div
-      class="card"
-      v-for="n in cards"
-      v-show="vc[n - 1]"
-      :id="`card${n - 1}`"
-    >
+    <div class="card" v-for="n in cards" :id="`card${n - 1}`">
       {{ n - 1 }}
     </div>
     <button class="moreButton" v-show="moreButtonVisible" @click="onMoreClick">
