@@ -7,7 +7,7 @@ defineExpose({
   resize: onResize,
 });
 
-const cards = 10;
+const cards = 6;
 
 const container = ref(null);
 
@@ -25,18 +25,21 @@ onBeforeMount(() => {});
 
 onMounted(() => {
   let containerWidth = container.value.offsetWidth;
-  let width = 70; // more button is assumed as "displayed"
+  let width = 0; // more button is assumed as "displayed"
   let buttonV = false;
-  let moreIndex = -1;
   for (let i = 0; i < cards; i++) {
-    width += 70;
-    if (width >= containerWidth) {
+    width += 70 + 4; // 4 for margin
+    if (width > containerWidth) {
       buttonV = true; // display the more button
-      let card = document.getElementById('card' + i);
+      let card = document.getElementById('card' + (i - 1));
       morePopup.value.appendChild(card);
     }
   }
   moreButtonVisible.value = buttonV;
+  if (buttonV) {
+    let card = document.getElementById('card' + (cards - 1));
+    morePopup.value.appendChild(card);
+  }
 });
 
 function onMoreClick() {
