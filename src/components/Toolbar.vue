@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onBeforeMount } from 'vue';
+import { ref, onMounted } from 'vue';
 
 defineProps({});
 
@@ -9,7 +9,7 @@ defineExpose({
 
 const cards = 6;
 
-const container = ref(null);
+const toolbar = ref(null);
 
 const features = ref(null);
 
@@ -39,7 +39,7 @@ function resetMore() {
 }
 
 function handleMore() {
-  let containerWidth = container.value.offsetWidth;
+  let containerWidth = toolbar.value.offsetWidth;
   let width = features.value.offsetWidth; // more button is assumed as "displayed"
   let buttonV = false;
   for (let i = 0; i < cards; i++) {
@@ -57,8 +57,6 @@ function handleMore() {
   }
 }
 
-onBeforeMount(() => {});
-
 onMounted(() => {
   handleMore();
 });
@@ -69,8 +67,8 @@ function onMoreClick() {
 </script>
 
 <template>
-  <div class="container" ref="container">
-    <div class="container-cnt" ref="content">
+  <div class="toolbar" ref="toolbar">
+    <div class="toolbar-cnt" ref="content">
       <div class="card" v-for="n in cards" :id="`card${n - 1}`">
         {{ n }}
       </div>
@@ -89,14 +87,14 @@ function onMoreClick() {
 </template>
 
 <style scoped>
-.container {
+.toolbar {
   display: grid;
   grid-template-columns: auto 200px;
   background-color: lightblue;
   max-height: 30px;
 }
 
-.container-cnt {
+.toolbar-cnt {
   display: flex;
   background-color: lightcoral;
 }
