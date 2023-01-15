@@ -11,6 +11,10 @@ const cards = 6;
 
 const container = ref(null);
 
+const features = ref(null);
+
+const content = ref(null);
+
 const moreButton = ref(null);
 
 const moreButtonVisible = ref(false);
@@ -26,26 +30,23 @@ function onResize() {
 
 function resetMore() {
   const children = [...morePopup.value.children];
-  if (children) {
-    // iterate over all child nodes
-    for (let i = 0; i < children.length; i++) {
-      let element = children[i];
-      console.log('moving ' + element.innerText + ' back into toolbar');
-      container.value.insertBefore(element, moreButton.value);
-    }
+  // iterate over all child nodes
+  for (let i = 0; i < children.length; i++) {
+    let element = children[i];
+    content.value.insertBefore(element, moreButton.value);
   }
   moreButtonVisible.value = false;
 }
 
 function handleMore() {
   let containerWidth = container.value.offsetWidth;
-  let width = 0; // more button is assumed as "displayed"
+  let width = features.value.offsetWidth; // more button is assumed as "displayed"
   let buttonV = false;
   for (let i = 0; i < cards; i++) {
+    let card = document.getElementById('card' + (i - 1));
     width += 70 + 4; // 4 for margin
     if (width > containerWidth) {
       buttonV = true; // display the more button
-      let card = document.getElementById('card' + (i - 1));
       morePopup.value.appendChild(card);
     }
   }
@@ -69,26 +70,45 @@ function onMoreClick() {
 
 <template>
   <div class="container" ref="container">
-    <div class="card" v-for="n in cards" :id="`card${n - 1}`">
-      {{ n - 1 }}
+    <div class="container-cnt" ref="content">
+      <div class="card" v-for="n in cards" :id="`card${n - 1}`">
+        {{ n }}
+      </div>
+      <button
+        class="moreButton"
+        ref="moreButton"
+        v-show="moreButtonVisible"
+        @click="onMoreClick"
+      >
+        More
+      </button>
     </div>
-    <button
-      class="moreButton"
-      ref="moreButton"
-      v-show="moreButtonVisible"
-      @click="onMoreClick"
-    >
-      More
-    </button>
+    <div class="features" ref="features">Features</div>
     <div class="morePopup" ref="morePopup" v-show="morePopupDisplayed"></div>
   </div>
 </template>
 
 <style scoped>
 .container {
+  display: grid;
+  grid-template-columns: auto 200px;
   background-color: lightblue;
   max-height: 30px;
+}
+
+.container-cnt {
   display: flex;
+  background-color: lightcoral;
+}
+
+.features {
+  display: inline-block;
+  width: auto;
+  background-color: yellow;
+  height: 20px;
+  margin: 2px;
+  color: black;
+  line-height: 21px;
 }
 
 .card {
