@@ -1,8 +1,8 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue';
+import Toolbar from './components/Toolbar.vue';
 import { ref } from 'vue';
 
-const toolbar = ref('HelloWorld');
+const toolbar = ref('Toolbar');
 
 function doResize() {
   toolbar.value?.resize();
@@ -12,7 +12,7 @@ function doResize() {
 <template>
   <button class="resize" @click="doResize">Resize</button>
 
-  <HelloWorld ref="toolbar" />
+  <Toolbar ref="toolbar" />
 </template>
 
 <style scoped>
